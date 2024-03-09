@@ -60,7 +60,8 @@ const Page = () => {
                   }}
                 >
                   <div>
-                    <Stack spacing={1} sx={{ mb: 3 }}>
+                    <Stack spacing={1}
+sx={{ mb: 3 }}>
                       <Typography variant="h4">Edit Service</Typography>
                     </Stack>
                     <form
@@ -92,14 +93,32 @@ const Page = () => {
                       }}
                     >
                       <Stack spacing={3}>
-                        <TextField label="Service Name" defaultValue={data.name} name="name" />
-                        <TextField label="Price Max" defaultValue={data.sale_price} name="sale_price" type="number" />
-                        <TextField label="Price Min" defaultValue={data.regular_price} name="regular_price" type="number" />
-                        <TextField label="Description" defaultValue={data.description} name="description" />
-                        <TextField label="Category" defaultValue={data.category} name="category" />
-                        <FilledInput type="file" name="images" mulitple />
+                        <TextField label="Service Name"
+defaultValue={data.name}
+name="name" />
+                        <TextField label="Price Max"
+defaultValue={data.sale_price}
+name="sale_price"
+type="number" />
+                        <TextField label="Price Min"
+defaultValue={data.regular_price}
+name="regular_price"
+type="number" />
+                        <TextField label="Description"
+defaultValue={data.description}
+name="description" />
+                        <TextField label="Category"
+defaultValue={data.category}
+name="category" />
+                        <FilledInput type="file"
+name="images"
+mulitple />
                       </Stack>
-                      <Button fullWidth size="large" sx={{ mt: 3 }} type="submit" variant="contained">
+                      <Button fullWidth
+size="large"
+sx={{ mt: 3 }}
+type="submit"
+variant="contained">
                         Update
                       </Button>
                     </form>

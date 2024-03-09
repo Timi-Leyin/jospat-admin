@@ -31,7 +31,8 @@ const Page = () => {
           }}
         >
           <div>
-            <Stack spacing={1} sx={{ mb: 3 }}>
+            <Stack spacing={1}
+sx={{ mb: 3 }}>
               <Typography variant="h4">Create new Service</Typography>
             </Stack>
             <form
@@ -64,14 +65,27 @@ const Page = () => {
               }}
             >
               <Stack spacing={3}>
-                <TextField label="Service Name" name="name" />
-                <TextField label="Price Max" name="sale_price" type="number" />
-                <TextField label="Price Min" name="regular_price" type="number" />
-                <TextField label="Description" name="description" />
-                <TextField label="Category" name="category" />
-                <FilledInput type="file" name="images" mulitple />
+                <TextField label="Service Name"
+name="name" />
+                <TextField label="Price Max"
+name="sale_price"
+type="number" />
+                <TextField label="Price Min"
+name="regular_price"
+type="number" />
+                <TextField label="Description"
+name="description" />
+                <TextField label="Category"
+name="category" />
+                <FilledInput type="file"
+name="images"
+mulitple />
               </Stack>
-              <Button fullWidth size="large" sx={{ mt: 3 }} type="submit" variant="contained">
+              <Button fullWidth
+size="large"
+sx={{ mt: 3 }}
+type="submit"
+variant="contained">
                 Create
               </Button>
             </form>

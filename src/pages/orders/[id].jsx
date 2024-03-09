@@ -84,13 +84,18 @@ const SingleOrderPage = () => {
             <Typography sx={{ fontSize: "18px", fontWeight: "bold" }}>Order #{id}</Typography>
             <Typography sx={{ fontSize: "16px", color: "#666" }}>Status: {data.status}</Typography>
           </Box>
-          <Grid xs={12} sm={6} lg={3}>
+          <Grid xs={12}
+sm={6}
+lg={3}>
             <Typography sx={{ fontSize: "18px", fontWeight: "bold" }}>
               Service Name: {data.service.name}
             </Typography>
           </Grid>
 
-          <Grid xs={12} my={5} sm={6} lg={3}>
+          <Grid xs={12}
+my={5}
+sm={6}
+lg={3}>
             <Typography sx={{ fontSize: "25px", fontWeight: "bold" }}>Update Status</Typography>
             <TextField
               select
@@ -114,7 +119,9 @@ const SingleOrderPage = () => {
               fullWidth
               sx={{ marginBottom: 2 }}
             />
-            <Button variant="contained" color="primary" onClick={handleUpdateOrder}>
+            <Button variant="contained"
+color="primary"
+onClick={handleUpdateOrder}>
               Update Order
             </Button>
           </Grid>

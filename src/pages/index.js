@@ -39,40 +39,62 @@ const Page = () => {
              <Button>
                   Add New Service
                 </Button></Link>
-              <Grid justifyContent={"center"} container spacing={3}>
-                <Grid xs={12} sm={6} lg={3}>
-                  <OverviewBudget positive={1} sx={{ height: "100%" }} value={ctx.data.transactions._sum.amount} />
+              <Grid justifyContent={"center"}
+container
+spacing={3}>
+                <Grid xs={12}
+sm={6}
+lg={3}>
+                  <OverviewBudget positive={1}
+sx={{ height: "100%" }}
+value={ctx.data.transactions._sum.amount} />
                 </Grid>
                 
-                <Grid xs={12} sm={6} lg={3}>
+                <Grid xs={12}
+sm={6}
+lg={3}>
                   <OverviewTotalCustomers
                     positive={1}
                     sx={{ height: "100%" }}
                     value={ctx.data.customers}
                   />
                 </Grid>
-                <Grid xs={12} sm={6} lg={3}>
-                  <OverviewTasksProgress sx={{ height: "100%" }} value={ctx.data.pendingOrders} />
+                <Grid xs={12}
+sm={6}
+lg={3}>
+                  <OverviewTasksProgress sx={{ height: "100%" }}
+value={ctx.data.pendingOrders} />
                 </Grid>
                 {/* <Grid xs={12} sm={6} lg={3}>
                   <OverviewTotalProfit sx={{ height: "100%" }} value="$15k" />
                 </Grid> */}
-                <Grid alignItems={"center"} xs={12} lg={8}>
-                  <OverviewSales chartSeries={ctx.data.sales} sx={{ height: "100%" }} />
+                <Grid alignItems={"center"}
+xs={12}
+lg={8}>
+                  <OverviewSales chartSeries={ctx.data.sales}
+sx={{ height: "100%" }} />
                 </Grid>
-                <Grid xs={12} md={6} lg={4}>
+                <Grid xs={12}
+md={6}
+lg={4}>
                   {/* <OverviewTraffic
                   chartSeries={[63, 15, 22]}
                   labels={['Desktop', 'Tablet', 'Phone']}
                   sx={{ height: '100%' }}
                 /> */}
                 </Grid>
-                <Grid xs={12} md={6} lg={4}>
-                  <OverviewLatestProducts products={ctx.data.services} sx={{ height: "100%" }} />
+                <Grid xs={12}
+md={6}
+lg={4}>
+                  <OverviewLatestProducts products={ctx.data.services}
+sx={{ height: "100%" }} />
                 </Grid>
                 
-                <Grid xs={12} md={12} lg={8}>
-                  <OverviewLatestOrders orders={ctx.data.orders} sx={{ height: "100%" }} />
+                <Grid xs={12}
+md={12}
+lg={8}>
+                  <OverviewLatestOrders orders={ctx.data.orders}
+sx={{ height: "100%" }} />
                 </Grid>
               </Grid>
             </Container>

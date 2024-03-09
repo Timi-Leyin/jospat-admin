@@ -16,9 +16,11 @@ import {
   ListItemText,
   SvgIcon
 } from '@mui/material';
+import { useRouter } from 'next/navigation';
 
 export const OverviewLatestProducts = (props) => {
   const { products = [], sx } = props;
+  const router = useRouter()
 
   return (
     <Card sx={sx}>
@@ -33,6 +35,7 @@ export const OverviewLatestProducts = (props) => {
           return (
             <ListItem
               divider={hasDivider}
+              onClick={()=> router.push(`/services/${product.uuid}`) }
               key={product.uuid}
             >
               <ListItemAvatar>

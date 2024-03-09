@@ -42,7 +42,7 @@ export const AccountPopover = (props) => {
           color="text.secondary"
           variant="body2"
         >
-          Jay Tech Co
+          Jospat Admin
         </Typography>
       </Box>
       <Divider />

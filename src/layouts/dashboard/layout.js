@@ -12,7 +12,7 @@ const SIDE_NAV_WIDTH = 280;
 export const adminContext = createContext({
   loading: false,
   error: "",
-  data: {},
+  data: null
 });
 
 const LayoutRoot = styled("div")(({ theme }) => ({
@@ -35,27 +35,28 @@ export const Layout = withAuthGuard((props) => {
   const { children } = props;
   const pathname = usePathname();
   const [openNav, setOpenNav] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [data, setData] = useState({});
-const router =  useRouter()
+  const router = useRouter();
 
   const fetchData = async () => {
     setLoading(true);
     // console.log(window.sessionStorage.getItem("sid"))
     try {
-      const response = await axiosInstance.get("/admin",{
-        headers:{
-          Authorization:`Bearer ${typeof window != "undefined" &&window.sessionStorage.getItem("sid")}`
-      }
+      const response = await axiosInstance.get("/admin", {
+        headers: {
+          Authorization: `Bearer ${
+            typeof window != "undefined" && window.sessionStorage.getItem("sid")
+          }`,
+        },
       });
       setData(response.data.data);
-      setError("");
     } catch (err) {
-      console.log(err)
+      setError(err);
       if (typeof err.response.data != "undefined") {
-        if(err.response.data.msg.match("Expired")){
-          router.replace("/auth/login")
+        if (err.response.data.msg.match("Expired")) {
+          router.push("/auth/login");
         }
 
         setError(err.response.data.msg);
@@ -75,7 +76,7 @@ const router =  useRouter()
   useEffect(
     () => {
       handlePathnameChange();
-      fetchData()
+      fetchData();
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [pathname]

@@ -25,8 +25,8 @@ const Page = () => {
   const [method, setMethod] = useState('email');
   const formik = useFormik({
     initialValues: {
-      email: 'admin@jospat.com.ng',
-      password: 'Password123!',
+      email: '',
+      password: '',
       submit: null
     },
     validationSchema: Yup.object({
@@ -61,8 +61,8 @@ const Page = () => {
 
   const handleSkip = useCallback(
     () => {
-      auth.skip();
-      router.push('/');
+      // auth.skip();
+      // router.push('/');
     },
     [auth, router]
   );
@@ -99,7 +99,7 @@ const Page = () => {
               <Typography variant="h4">
                 Login
               </Typography>
-              <Typography
+              {/* <Typography
                 color="text.secondary"
                 variant="body2"
               >
@@ -112,8 +112,9 @@ const Page = () => {
                   variant="subtitle2"
                 >
                   Register
-                </Link>
+                </Link> 
               </Typography>
+                */}
             </Stack>
             <Tabs
               onChange={handleMethodChange}
@@ -193,7 +194,7 @@ const Page = () => {
                   sx={{ mt: 3 }}
                 >
                   <div>
-                    You can use <b>admin@jospat.com.ng</b> and password <b>Password123!</b>
+                    You can use <b>admin credentials</b> and password <b></b>
                   </div>
                 </Alert>
               </form>

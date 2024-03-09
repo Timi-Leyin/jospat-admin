@@ -17,6 +17,7 @@ import {
 } from '@mui/material';
 import { Scrollbar } from 'src/components/scrollbar';
 import { SeverityPill } from 'src/components/severity-pill';
+import Link from 'next/link';
 
 const statusMap = {
   pending: 'warning',
@@ -59,7 +60,9 @@ export const OverviewLatestOrders = (props) => {
                     key={order.uuid}
                   >
                     <TableCell>
+                    <Link  href={`/orders/${order.uuid}`}>
                       {order.service.name}
+                    </Link>
                     </TableCell>
                     <TableCell>
                       {order.User.first_name}

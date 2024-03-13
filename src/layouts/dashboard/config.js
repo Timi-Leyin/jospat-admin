@@ -46,9 +46,18 @@ export const items = [
       </SvgIcon>
     )
   },
+  // {
+  //   title: 'Update Item',
+  //   path: '/update',
+  //   icon: (
+  //     <SvgIcon fontSize="small">
+  //       <ArrowPathIcon />
+  //     </SvgIcon>
+  //   )
+  // },
   {
-    title: 'Update Item',
-    path: '/update',
+    title: 'Services',
+    path: '/services',
     icon: (
       <SvgIcon fontSize="small">
         <ArrowPathIcon />

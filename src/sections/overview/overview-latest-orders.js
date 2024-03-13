@@ -17,7 +17,6 @@ import {
 } from '@mui/material';
 import { Scrollbar } from 'src/components/scrollbar';
 import { SeverityPill } from 'src/components/severity-pill';
-import Link from 'next/link';
 
 const statusMap = {
   pending: 'warning',
@@ -52,20 +51,18 @@ export const OverviewLatestOrders = (props) => {
             </TableHead>
             <TableBody>
               {orders.map((order) => {
-                const createdAt = format(new Date(order.createdAt), 'dd/MM/yyyy');
+                const createdAt = format(order.createdAt, 'dd/MM/yyyy');
 
                 return (
                   <TableRow
                     hover
-                    key={order.uuid}
+                    key={order.id}
                   >
                     <TableCell>
-                    <Link  href={`/orders/${order.uuid}`}>
-                      {order.service.name}
-                    </Link>
+                      {order.ref}
                     </TableCell>
                     <TableCell>
-                      {order.User.first_name}
+                      {order.customer.name}
                     </TableCell>
                     <TableCell>
                       {createdAt}

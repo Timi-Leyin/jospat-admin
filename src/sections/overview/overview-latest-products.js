@@ -1,4 +1,4 @@
-import { formatDistanceToNow, subHours } from 'date-fns';
+import { formatDistanceToNow } from 'date-fns';
 import PropTypes from 'prop-types';
 import ArrowRightIcon from '@heroicons/react/24/solid/ArrowRightIcon';
 import EllipsisVerticalIcon from '@heroicons/react/24/solid/EllipsisVerticalIcon';
@@ -16,35 +16,30 @@ import {
   ListItemText,
   SvgIcon
 } from '@mui/material';
-import { useRouter } from 'next/navigation';
 
 export const OverviewLatestProducts = (props) => {
   const { products = [], sx } = props;
-  const router = useRouter()
 
   return (
     <Card sx={sx}>
-      <CardHeader title="Latest Products" />
+      <CardHeader title="Latest Services" />
       <List>
         {products.map((product, index) => {
           const hasDivider = index < products.length - 1;
-          const upAt = new Date(product.updatedAt)
-          const time = subHours(upAt, upAt.getHours()).getTime();
-          const ago =  formatDistanceToNow(time);
+          const ago = formatDistanceToNow(product.updatedAt);
 
           return (
             <ListItem
               divider={hasDivider}
-              onClick={()=> router.push(`/services/${product.uuid}`) }
-              key={product.uuid}
+              key={product.id}
             >
               <ListItemAvatar>
                 {
-                  product.thumbnail
+                  product.image
                     ? (
                       <Box
                         component="img"
-                        src={product.thumbnail[0].src}
+                        src={product.image}
                         sx={{
                           borderRadius: 1,
                           height: 48,

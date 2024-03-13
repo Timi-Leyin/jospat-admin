@@ -29,10 +29,10 @@ export const OverviewTasksProgress = (props) => {
               gutterBottom
               variant="overline"
             >
-              Pending Orders
+              Task Progress
             </Typography>
             <Typography variant="h4">
-              {value}
+              {value}%
             </Typography>
           </Stack>
           <Avatar

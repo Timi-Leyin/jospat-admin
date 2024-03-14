@@ -7,11 +7,11 @@ import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
 import { Box, Button, Container, Stack, SvgIcon, Typography } from "@mui/material";
 import { useSelection } from "src/hooks/use-selection";
 import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
-import { CustomersTable } from "src/sections/customer/order-table";
 import { CustomersSearch } from "src/sections/customer/order-search";
 import { applyPagination } from "src/utils/apply-pagination";
 import axiosInstance from "src/config/axios";
 import { adminContext } from "src/contexts/admin-context";
+import { OrderTable } from "src/sections/customer/order-table";
 
 const now = new Date();
 
@@ -62,10 +62,10 @@ const Page = () => {
                 <Typography variant="h4">Orders</Typography>
               </Stack>
             </Stack>
-            <CustomersSearch />
-            <CustomersTable
-              count={ctx.data.orders.length || 0 }
-              items={ctx.data.orders}
+            {/* <CustomersSearch /> */}
+            <OrderTable
+              count={ctx.data.orders ? ctx.data.orders.length : 0 }
+              items={ctx.data.orders || []}
               onDeselectAll={customersSelection.handleDeselectAll}
               onDeselectOne={customersSelection.handleDeselectOne}
               onPageChange={handlePageChange}

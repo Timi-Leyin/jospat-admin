@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
-import { format } from 'date-fns';
+import PropTypes from "prop-types";
+import { format } from "date-fns";
 import {
   Avatar,
   Box,
@@ -12,19 +12,21 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  Typography
-} from '@mui/material';
-import { Scrollbar } from 'src/components/scrollbar';
-import { getInitials } from 'src/utils/get-initials';
-import { SeverityPill } from 'src/components/severity-pill';
+  Typography,
+} from "@mui/material";
+import { Scrollbar } from "src/components/scrollbar";
+import { getInitials } from "src/utils/get-initials";
+import { SeverityPill } from "src/components/severity-pill";
+import Link from "next/link";
+import moneySplitter from "src/utils/money-splitter";
 
-const statusMap = {
-  pending: 'warning',
-  delivered: 'success',
-  refunded: 'error'
+export const statusMap = {
+  pending: "warning",
+  delivered: "success",
+  refunded: "error",
 };
 
-export const CustomersTable = (props) => {
+export const OrderTable = (props) => {
   const {
     count = 0,
     items = [],
@@ -36,12 +38,12 @@ export const CustomersTable = (props) => {
     onSelectOne,
     page = 0,
     rowsPerPage = 0,
-    selected = []
+    selected = [],
   } = props;
-  
-  console.log(items)
-  const selectedSome = (selected.length > 0) && (selected.length < items.length);
-  const selectedAll = (items.length > 0) && (selected.length === items.length);
+
+  console.log(items);
+  const selectedSome = selected.length > 0 && selected.length < items.length;
+  const selectedAll = items.length > 0 && selected.length === items.length;
 
   return (
     <Card>
@@ -50,24 +52,13 @@ export const CustomersTable = (props) => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>
-                  Date
-                </TableCell>
-                <TableCell>
-                  Name
-                </TableCell>
-                <TableCell>
-                  Order
-                </TableCell>
-                <TableCell>
-                  Location
-                </TableCell>
-                <TableCell>
-                  Phone
-                </TableCell>
-                <TableCell>
-                  Status
-                </TableCell>
+                <TableCell>Order ID</TableCell>
+                <TableCell>Service Name</TableCell>
+                <TableCell>User</TableCell>
+                <TableCell>Final Price</TableCell>
+                <TableCell>Location</TableCell>
+                <TableCell>Date</TableCell>
+                <TableCell>Status</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -76,39 +67,35 @@ export const CustomersTable = (props) => {
                 // const createdAt = format(customer.createdAt, 'dd/MM/yyyy');
 
                 return (
-                  <TableRow
-                    hover
-                    key={customer.uuid}
-                    selected={isSelected}
-                  >
+                  <TableRow hover key={customer.uuid} selected={isSelected}>
                     <TableCell>
-                      <Stack
-                        alignItems="center"
-                        direction="row"
-                        spacing={2}
-                      >
+                      <Stack alignItems="center" direction="row" spacing={2}>
                         {/* <Avatar src={customer.avatar}> */}
-                          {/* {getInitials(customer.name)} */}
+                        {/* {getInitials(customer.name)} */}
                         {/* </Avatar> */}
                         <Typography variant="subtitle2">
-                          {new Date(customer.createdAt).toDateString()}
+                          <b style={{ fontSize: "20px" }}># </b>
+                          {customer.id}
                         </Typography>
                       </Stack>
                     </TableCell>
                     <TableCell>
-                      {customer.name}
+                      <Link href={`/orders/${customer.uuid}`}>{customer.service.name}</Link>
                     </TableCell>
                     <TableCell>
-                      {customer.order}
+                      {customer.User.first_name + " " + customer.User.last_name}
                     </TableCell>
                     <TableCell>
-                      {customer.address.city}, {customer.address.state}, {customer.address.country}
+                      {customer.amount
+                        ? "NGN " + moneySplitter(customer.amount)
+                        : "Not Yet Finalized"}
                     </TableCell>
                     <TableCell>
-                      {customer.phone}
+                      {customer.address.address}, {customer.address.city}, {customer.address.state}
                     </TableCell>
+                    <TableCell>{new Date(customer.createdAt).toDateString()}</TableCell>
                     <TableCell>
-                    <SeverityPill color={statusMap[customer.status]}>
+                      <SeverityPill color={statusMap[customer.status]}>
                         {/* {order.status} */}
                         {customer.status}
                       </SeverityPill>
@@ -133,7 +120,7 @@ export const CustomersTable = (props) => {
   );
 };
 
-CustomersTable.propTypes = {
+OrderTable.propTypes = {
   count: PropTypes.number,
   items: PropTypes.array,
   onDeselectAll: PropTypes.func,
@@ -144,5 +131,5 @@ CustomersTable.propTypes = {
   onSelectOne: PropTypes.func,
   page: PropTypes.number,
   rowsPerPage: PropTypes.number,
-  selected: PropTypes.array
+  selected: PropTypes.array,
 };

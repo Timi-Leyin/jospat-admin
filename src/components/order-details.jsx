@@ -1,4 +1,5 @@
 import React from "react";
+import { SeverityPill } from "src/components/severity-pill";
 import {
   Avatar,
   Box,
@@ -9,7 +10,6 @@ import {
   CardContent,
   Dialog,
   DialogActions,
-  SeverityPill,
   DialogContent,
   CardHeader,
   MenuItem,
@@ -26,8 +26,11 @@ import {
   Typography,
 } from "@mui/material";
 import Progress from "./progress";
+import { getInitials } from "src/utils/get-initials";
+import { statusMap } from "src/sections/customer/order-table";
 
-const OrderDetails = () => {
+
+const OrderDetails = ({ order }) => {
   return (
     <div>
       <Box display={"flex"} mt={5} flexDirection={"row"} gap={"24px"}>
@@ -50,20 +53,20 @@ const OrderDetails = () => {
                       cursor: "pointer",
                     }}
                   >
-                    OT
+                    {order && getInitials(`${order.User.first_name} ${order.User.last_name}`)}
                   </Avatar>
                   <Typography gutterBottom variant="h5" width={"unset"}>
-                    OriginalTImi
+                    {order ? `${order.User.first_name} ${order.User.last_name}` : "-"}
                   </Typography>
                   <Typography
                     color="text.secondary"
                     variant="body2"
                     // width={"unset"}
                   >
-                    OT
+                    {order ? "@"+order.User.username : "-" }
                   </Typography>
                   <Typography color="text.secondary" variant="body2" width={"unset"}>
-                    admin
+                    {order ? order.User.email : "-" }
                   </Typography>
                 </Box>
               </CardContent>
@@ -105,44 +108,56 @@ const OrderDetails = () => {
               <CardContent>
                 <Table>
                   <TableBody>
-                    <TableRow>
-                      <TableCell>Type</TableCell>
-                      <TableCell>-</TableCell>
-                    </TableRow>
+                    
                     <TableRow>
                       <TableCell>Date</TableCell>
-                      <TableCell>{Date.now()}</TableCell>
+                      <TableCell>{order ? new Date(order.createdAt).toDateString() : "-"}</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell>Status</TableCell>
                       <TableCell>
-                        as
-                        {/* <SeverityPill
-                    padding={"0"}
-                    color={statusMap[application?.status?.toLowerCase()]}
-                  >
-                    <Chip label={"Pending"} />
-                    pending
-                  </SeverityPill> */}
+                      <SeverityPill color={statusMap[order ? order.status: "pending"]}>
+                        {/* {order.status} */}
+                        {order ? order.status :"pending"}
+                      </SeverityPill>
                       </TableCell>
                     </TableRow>
                     <TableRow>
-                      <TableCell>Document</TableCell>
-                      <TableCell>me.pdf</TableCell>
+                      <TableCell>Address</TableCell>
+                      <TableCell>{order ? order.address.address : "-"}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>State</TableCell>
+                      <TableCell>{order ? order.address.state :"-"}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>City</TableCell>
+                      <TableCell>{order ? order.address.city :"-"}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>Phone No</TableCell>
+                      <TableCell>{order ? order.address.phone_number :"-"}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>Additional Info</TableCell>
+                      <TableCell>{order ? order.address.additional_info :"None"}</TableCell>
                     </TableRow>
                   </TableBody>
                 </Table>
               </CardContent>
               <CardActions>
-                <Box mx={3} mb={3}>
-                  <Typography mb={3} fontWeight={"bold"} fontSize={"17px"}>Update Order</Typography>
+                <Box mx={3} mb={3} componen>
+                  <Typography mb={3} fontWeight={"bold"} fontSize={"17px"}>
+                    Update Order
+                  </Typography>
                   <Box display={"flex"} justifyContent={"center"} gap={3} flexWrap={"wrap"} mb={2}>
                     <TextField
                       fullWidth
                       label="Actual Price (NGN)"
                       name="amount"
+                      required
                       type="number"
-                      value={"1000"}
+                      defaultValue={order ? order.amount : ""}
                     />
                     <TextField
                       fullWidth
@@ -152,8 +167,9 @@ const OrderDetails = () => {
                     />
                     <TextField
                       select
+                      required
                       label="Status"
-                      defaultValue={"initial"}
+                      defaultValue={order ? order.status.toLowerCase():""}
                       // onChange={handleStatusChange}
                       fullWidth
                       sx={{ marginBottom: 2 }}

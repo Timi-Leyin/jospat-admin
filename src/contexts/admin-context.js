@@ -4,7 +4,15 @@ import axiosInstance from "src/config/axios";
 export const adminContext = createContext({
   loading: true,
   error: "",
-  data: {},
+  data: {
+    orders:[],
+    user:{},
+    customers:[],
+    services:[],
+    transactions:[],
+    sales:[],
+    pendingOrders:0
+  },
 });
 
 export const AdminProvider = ({ children }) => {

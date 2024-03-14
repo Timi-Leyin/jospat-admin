@@ -71,13 +71,13 @@ export const CustomersTable = (props) => {
             </TableHead>
             <TableBody>
               {items.map((customer) => {
-                const isSelected = selected.includes(customer.id);
+                const isSelected = selected.includes(customer.uuid);
                 // const createdAt = format(customer.createdAt, 'dd/MM/yyyy');
 
                 return (
                   <TableRow
                     hover
-                    key={customer.id}
+                    key={customer.uuid}
                     selected={isSelected}
                   >
                     <TableCell>
@@ -90,7 +90,7 @@ export const CustomersTable = (props) => {
                           {/* {getInitials(customer.name)} */}
                         {/* </Avatar> */}
                         <Typography variant="subtitle2">
-                          {customer.date}
+                          {new Date(customer.createdAt).toDateString()}
                         </Typography>
                       </Stack>
                     </TableCell>

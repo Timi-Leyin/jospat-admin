@@ -91,7 +91,8 @@ const Page = () => {
                 </Link>
               </Typography>
             </Stack>
-            <form
+            <Typography>This Feature is not Available at the moment</Typography>
+            {/* <form
               noValidate
               onSubmit={formik.handleSubmit}
             >
@@ -147,7 +148,7 @@ const Page = () => {
               >
                 Continue
               </Button>
-            </form>
+            </form> */}
           </div>
         </Box>
       </Box>

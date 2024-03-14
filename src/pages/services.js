@@ -10,6 +10,7 @@ import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import { CustomersTable } from 'src/sections/customer/order-table';
 import { CustomersSearch } from 'src/sections/customer/order-search';
 import { applyPagination } from 'src/utils/apply-pagination';
+import Link from 'next/link';
 
 
 const now = new Date();
@@ -222,6 +223,11 @@ const Page = () => {
                   Services
                 </Typography>
               </Stack>
+
+             <Link href={"/services/new"}>
+             <Button variant='contained'>
+                Create New
+              </Button></Link>
             </Stack>
             <CustomersSearch />
             <CustomersTable

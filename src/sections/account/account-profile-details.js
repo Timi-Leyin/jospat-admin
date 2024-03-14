@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useContext, useState } from "react";
 import {
   Box,
   Button,
@@ -8,77 +8,60 @@ import {
   CardHeader,
   Divider,
   TextField,
-  Unstable_Grid2 as Grid
-} from '@mui/material';
+  Unstable_Grid2 as Grid,
+} from "@mui/material";
+import { adminContext } from "src/contexts/admin-context";
 
 const states = [
   {
-    value: 'Jay Tech co',
-    label: 'Jay Tech co'
+    value: "Jay Tech co",
+    label: "Jay Tech co",
   },
   {
-    value: 'new-york',
-    label: 'New York'
+    value: "new-york",
+    label: "New York",
   },
   {
-    value: 'san-francisco',
-    label: 'San Francisco'
+    value: "san-francisco",
+    label: "San Francisco",
   },
   {
-    value: 'los-angeles',
-    label: 'Los Angeles'
-  }
+    value: "los-angeles",
+    label: "Los Angeles",
+  },
 ];
 
 export const AccountProfileDetails = () => {
+  const ctx = useContext(adminContext);
   const [values, setValues] = useState({
-    firstName: 'Jay',
-    lastName: 'Tech CO',
-    email: 'admin@jospat.com.ng',
-    phone: '0902819295',
-    state: 'lagos',
-    country: 'NIGERIA'
+    firstName: typeof ctx.data.user != "undefined" ? ctx.data.user.first_name : "",
+    lastName: typeof ctx.data.user != "undefined" ? ctx.data.user.last_name : "",
+    email: typeof ctx.data.user != "undefined" ? ctx.data.user.email : "",
+    phone: typeof ctx.data.user != "undefined" ? ctx.data.user.phone : "",
+    country: "NIGERIA",
   });
 
-  const handleChange = useCallback(
-    (event) => {
-      setValues((prevState) => ({
-        ...prevState,
-        [event.target.name]: event.target.value
-      }));
-    },
-    []
-  );
+  const handleChange = useCallback((event) => {
+    setValues((prevState) => ({
+      ...prevState,
+      [event.target.name]: event.target.value,
+    }));
+  }, []);
 
-  const handleSubmit = useCallback(
-    (event) => {
-      event.preventDefault();
-    },
-    []
-  );
+  const handleSubmit = useCallback((event) => {
+    event.preventDefault();
+  }, []);
 
   return (
-    <form
-      autoComplete="off"
-      noValidate
-      onSubmit={handleSubmit}
-    >
+    <form autoComplete="off" noValidate onSubmit={handleSubmit}>
       <Card>
-        <CardHeader
-          subheader="The information can be edited"
-          title="Profile"
-        />
+        <CardHeader subheader="The information cannot be edited at the moment" title="Profile" />
         <CardContent sx={{ pt: 0 }}>
           <Box sx={{ m: -1.5 }}>
-            <Grid
-              container
-              spacing={3}
-            >
-              <Grid
-                xs={12}
-                md={6}
-              >
+            <Grid container spacing={3}>
+              <Grid xs={12} md={6}>
                 <TextField
+                  disabled
                   fullWidth
                   helperText="Please specify the first name"
                   label="First name"
@@ -88,11 +71,9 @@ export const AccountProfileDetails = () => {
                   value={values.firstName}
                 />
               </Grid>
-              <Grid
-                xs={12}
-                md={6}
-              >
+              <Grid xs={12} md={6}>
                 <TextField
+                  disabled
                   fullWidth
                   label="Last name"
                   name="lastName"
@@ -101,12 +82,10 @@ export const AccountProfileDetails = () => {
                   value={values.lastName}
                 />
               </Grid>
-              <Grid
-                xs={12}
-                md={6}
-              >
+              <Grid xs={12} md={6}>
                 <TextField
                   fullWidth
+                  disabled
                   label="Email Address"
                   name="email"
                   onChange={handleChange}
@@ -114,12 +93,10 @@ export const AccountProfileDetails = () => {
                   value={values.email}
                 />
               </Grid>
-              <Grid
-                xs={12}
-                md={6}
-              >
+              <Grid xs={12} md={6}>
                 <TextField
                   fullWidth
+                  disabled
                   label="Phone Number"
                   name="phone"
                   onChange={handleChange}
@@ -129,9 +106,10 @@ export const AccountProfileDetails = () => {
               </Grid>
               <Grid
                 xs={12}
-                md={6}
+                // md={6}
               >
                 <TextField
+                  disabled
                   fullWidth
                   label="Country"
                   name="country"
@@ -140,36 +118,12 @@ export const AccountProfileDetails = () => {
                   value={values.country}
                 />
               </Grid>
-              <Grid
-                xs={12}
-                md={6}
-              >
-                <TextField
-                  fullWidth
-                  label="Select State"
-                  name="state"
-                  onChange={handleChange}
-                  required
-                  select
-                  SelectProps={{ native: true }}
-                  value={values.state}
-                >
-                  {states.map((option) => (
-                    <option
-                      key={option.value}
-                      value={option.value}
-                    >
-                      {option.label}
-                    </option>
-                  ))}
-                </TextField>
-              </Grid>
             </Grid>
           </Box>
         </CardContent>
         <Divider />
-        <CardActions sx={{ justifyContent: 'flex-end' }}>
-          <Button variant="contained">
+        <CardActions sx={{ justifyContent: "flex-end" }}>
+          <Button disabled variant="contained">
             Save details
           </Button>
         </CardActions>

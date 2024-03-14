@@ -30,35 +30,6 @@ const Page = () => {
 
   const order = ctx.data.orders ? ctx.data.orders.filter((ord) => ord.uuid === uuid) : [];
 
-  // useEffect(() => {
-  //   if (uuid) {
-
-  //   }
-
-  // }, []);
-
-  const submitHandler = async (event) => {
-    event.preventDefault();
-    // console.log(event.target);
-    const fd = new FormData(event.target);
-    setLoading(true);
-    setError("");
-    try {
-      const response = await axiosInstance.put(`/services/${id}`, fd);
-      event.target.reset();
-      alert(response.data.msg);
-      // router.back();
-    } catch (err) {
-      console.log(err);
-      if (typeof err.response != "undefined") {
-        setError(err.response.data.msg);
-        return;
-      }
-      setError("Check Your Internet Connection");
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
     <Box

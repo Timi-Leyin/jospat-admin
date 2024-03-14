@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { SeverityPill } from "src/components/severity-pill";
 import {
   Avatar,
@@ -24,15 +24,47 @@ import {
   Skeleton,
   Slide,
   Typography,
+  CircularProgress,
+  Alert,
 } from "@mui/material";
 import Progress from "./progress";
 import { getInitials } from "src/utils/get-initials";
 import { statusMap } from "src/sections/customer/order-table";
-
+import moneySplitter from "src/utils/money-splitter";
+import axiosInstance from "src/config/axios";
 
 const OrderDetails = ({ order }) => {
+  const [isLoading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const handleSubmit = async (event) => {
+    if (order) {
+      event.preventDefault();
+      // console.log(event.target);
+      const fd = new FormData(event.target);
+      setLoading(true);
+      setError("");
+      try {
+        const response = await axiosInstance.put(`/orders/${order.uuid}`, fd);
+        window.location.reload();
+        alert(response.data.msg);
+        // router.back();
+      } catch (err) {
+        console.log(err);
+        if (typeof err.response != "undefined") {
+          setError(err.response.data.msg);
+          return;
+        }
+        setError("Check Your Internet Connection");
+      } finally {
+        setLoading(false);
+      }
+    }
+  };
   return (
     <div>
+      <Box onClick={() => setError("")} position={"fixed"} right={0} zIndex={99}>
+        {error && <Alert severity="error">{error}</Alert>}
+      </Box>
       <Box display={"flex"} mt={5} flexDirection={"row"} gap={"24px"}>
         <Grid spacing={5} flex={1} justifyContent={"space-between"}>
           <Grid item lg={6} md={6} xl={4} xs={12}>
@@ -63,10 +95,10 @@ const OrderDetails = ({ order }) => {
                     variant="body2"
                     // width={"unset"}
                   >
-                    {order ? "@"+order.User.username : "-" }
+                    {order ? "@" + order.User.username : "-"}
                   </Typography>
                   <Typography color="text.secondary" variant="body2" width={"unset"}>
-                    {order ? order.User.email : "-" }
+                    {order ? order.User.email : "-"}
                   </Typography>
                 </Box>
               </CardContent>
@@ -108,18 +140,33 @@ const OrderDetails = ({ order }) => {
               <CardContent>
                 <Table>
                   <TableBody>
-                    
                     <TableRow>
                       <TableCell>Date</TableCell>
-                      <TableCell>{order ? new Date(order.createdAt).toDateString() : "-"}</TableCell>
+                      <TableCell>
+                        {order ? new Date(order.createdAt).toDateString() : "-"}
+                      </TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell>Status</TableCell>
                       <TableCell>
-                      <SeverityPill color={statusMap[order ? order.status: "pending"]}>
-                        {/* {order.status} */}
-                        {order ? order.status :"pending"}
-                      </SeverityPill>
+                        <SeverityPill color={statusMap[order ? order.status : "pending"]}>
+                          {/* {order.status} */}
+                          {order ? order.status : "pending"}
+                        </SeverityPill>
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>Amount</TableCell>
+                      <TableCell>{order ? "NGN " + moneySplitter(order.amount) : "-"}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>Inspection Date</TableCell>
+                      <TableCell>
+                        {order
+                          ? order.inspection_date
+                            ? new Date(order.inspection_date).toLocaleDateString()
+                            : "None Yet"
+                          : "-"}
                       </TableCell>
                     </TableRow>
                     <TableRow>
@@ -128,25 +175,27 @@ const OrderDetails = ({ order }) => {
                     </TableRow>
                     <TableRow>
                       <TableCell>State</TableCell>
-                      <TableCell>{order ? order.address.state :"-"}</TableCell>
+                      <TableCell>{order ? order.address.state : "-"}</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell>City</TableCell>
-                      <TableCell>{order ? order.address.city :"-"}</TableCell>
+                      <TableCell>{order ? order.address.city : "-"}</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell>Phone No</TableCell>
-                      <TableCell>{order ? order.address.phone_number :"-"}</TableCell>
+                      <TableCell>{order ? order.address.phone_number : "-"}</TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell>Additional Info</TableCell>
-                      <TableCell>{order ? order.address.additional_info :"None"}</TableCell>
+                      <TableCell>{order ? order.address.additional_info : "None"}</TableCell>
                     </TableRow>
                   </TableBody>
                 </Table>
               </CardContent>
-              <CardActions>
-                <Box mx={3} mb={3} componen>
+              {
+                order && (
+                  <CardActions>
+                <Box mx={3} mb={3} method="POST" component={"form"} onSubmit={handleSubmit}>
                   <Typography mb={3} fontWeight={"bold"} fontSize={"17px"}>
                     Update Order
                   </Typography>
@@ -154,22 +203,29 @@ const OrderDetails = ({ order }) => {
                     <TextField
                       fullWidth
                       label="Actual Price (NGN)"
-                      name="amount"
+                      name="price"
                       required
                       type="number"
-                      defaultValue={order ? order.amount : ""}
+                      defaultValue={order.amount}
                     />
                     <TextField
                       fullWidth
                       label="Inspection Date"
                       name="inspection_date"
+                      required
+                      onChange={(e)=>{
+                        console.log(e.target.value)
+                        console.log(`${new Date(order.inspection_date).getFullYear()}-${new Date(order.inspection_date).getMonth()}-${new Date(order.inspection_date).getDay()}`)
+                      }}
+                      defaultValue={order.inspection_date.split("T")[0]}
                       type="date"
                     />
                     <TextField
                       select
                       required
                       label="Status"
-                      defaultValue={order ? order.status.toLowerCase():""}
+                      name="status"
+                      defaultValue={order.status.toLowerCase() }
                       // onChange={handleStatusChange}
                       fullWidth
                       sx={{ marginBottom: 2 }}
@@ -182,9 +238,13 @@ const OrderDetails = ({ order }) => {
                     </TextField>
                   </Box>
 
-                  <Button variant="contained">Update Order</Button>
+                  <Button type="submit" disabled={isLoading} variant="contained">
+                    {isLoading ? <CircularProgress size={25} /> : "Update Order"}
+                  </Button>
                 </Box>
               </CardActions>
+                )
+              }
             </Card>
           </Grid>
         </Grid>

@@ -38,7 +38,8 @@ export const CustomersTable = (props) => {
     rowsPerPage = 0,
     selected = []
   } = props;
-
+  
+  console.log(items)
   const selectedSome = (selected.length > 0) && (selected.length < items.length);
   const selectedAll = (items.length > 0) && (selected.length === items.length);
 

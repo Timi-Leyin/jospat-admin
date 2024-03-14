@@ -14,10 +14,22 @@ import {
 import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
 import { useState } from "react";
 import axiosInstance from "src/config/axios";
+import { useRouter } from "next/router";
 
 const Page = () => {
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const router = useRouter();
+  const [previewImage, setPreviewImage] = useState()
+
+  
+
+  const imageInputHandler = async (event)=>{
+    const file = event.target.files[0];
+    const url = URL.createObjectURL(file)
+    setPreviewImage(url)
+  }
+
   const submitHandler = async (event) => {
     event.preventDefault();
     console.log(event.target);
@@ -28,6 +40,7 @@ const Page = () => {
       const response = await axiosInstance.post("/services/add", fd);
       event.target.reset()
       alert(response.data.msg);
+      router.back()
     } catch (err) {
       console.log(err);
       if (typeof err.response != "undefined") {
@@ -60,7 +73,10 @@ const Page = () => {
             width={500}
             borderRadius={5}
             height={500}
-            src={"/admin/assets/products/product-1.png"}
+            style={{
+                objectFit:"cover"
+            }}
+            src={previewImage || "/admin/assets/products/product-1.png"}
           ></Box>
           <Box component={"form"} method="post" onSubmit={submitHandler}>
             <TextField fullWidth required label="Service Name" name="name" type="text" />
@@ -83,7 +99,7 @@ const Page = () => {
             <Typography fontSize={15}></Typography>
             <TextField fullWidth label="Service Category" name="category" required type="text" />
             <Box my={1}>
-              <TextField label="Image" fullWidth name="images" type="file" />
+              <TextField label="Image" fullWidth onChange={imageInputHandler} name="images" type="file" />
             </Box>
             <Stack direction={"row"} gap={5} py={1}>
               <TextField fullWidth label="MIN PRICE" name="regular_price" type="number" required />

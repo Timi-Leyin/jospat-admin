@@ -7,6 +7,7 @@ import UserIcon from '@heroicons/react/24/solid/UserIcon';
 import UserPlusIcon from '@heroicons/react/24/solid/UserPlusIcon';
 import UsersIcon from '@heroicons/react/24/solid/UsersIcon';
 import XCircleIcon from '@heroicons/react/24/solid/XCircleIcon';
+import CreditCardIcon from '@heroicons/react/24/solid/CreditCardIcon';
 import { SvgIcon } from '@mui/material';
 
 export const items = [
@@ -65,23 +66,15 @@ export const items = [
     )
   },
   {
-    title: 'Settings',
-    path: '/settings',
+    title: 'Paystack',
+    path: 'https://paystack.com',
     icon: (
       <SvgIcon fontSize="small">
-        <CogIcon />
+        <CreditCardIcon />
       </SvgIcon>
     )
   },
-  {
-    title: 'Register',
-    path: '/auth/register',
-    icon: (
-      <SvgIcon fontSize="small">
-        <UserPlusIcon />
-      </SvgIcon>
-    )
-  },
+
   // {
   //   title: 'Error',
   //   path: '/404',

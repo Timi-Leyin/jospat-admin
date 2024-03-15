@@ -1,3 +1,4 @@
+import { useRouter } from "next/navigation";
 import { createContext, useEffect, useRef, useState } from "react";
 import axiosInstance from "src/config/axios";
 
@@ -5,13 +6,13 @@ export const adminContext = createContext({
   loading: true,
   error: "",
   data: {
-    orders:[],
-    user:{},
-    customers:[],
-    services:[],
-    transactions:[],
-    sales:[],
-    pendingOrders:0
+    orders: [],
+    user: {},
+    customers: [],
+    services: [],
+    transactions: [],
+    sales: [],
+    pendingOrders: 0,
   },
 });
 
@@ -19,7 +20,7 @@ export const AdminProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [data, setData] = useState({});
-
+  const router = useRouter();
   const initialized = useRef(false);
 
   const fetchData = async () => {
@@ -29,7 +30,7 @@ export const AdminProvider = ({ children }) => {
       console.log(response);
       setData(response.data.data);
     } catch (error) {
-      console.log(error);
+      router.replace("/auth/login");
       setError(error);
     } finally {
       setLoading(false);
@@ -38,7 +39,7 @@ export const AdminProvider = ({ children }) => {
 
   useEffect(() => {
     if (initialized.current) {
-        return;
+      return;
     }
     initialized.current = true;
 

@@ -39,7 +39,8 @@ const Page = () => {
       try {
         setLoading(true);
         await auth.signIn(values.email, values.password);
-        router.push("/");
+        // router.push("/");
+        window.location.replace("/admin")
       } catch (err) {
         helpers.setStatus({ success: false });
         helpers.setErrors({ submit: err.message });

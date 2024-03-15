@@ -46,6 +46,7 @@ import axiosInstance from "src/config/axios";
 
 const Page = () => {
   const [isLoading, setLoading] = useState(false);
+  const [loading, setLoad] = useState(false);
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
   const ctx = useContext(adminContext);
@@ -62,11 +63,14 @@ const Page = () => {
   };
 
   const fetchData = async () => {
+    setLoad(true);
     try {
       const response = await axiosInstance.get(`/services/${params.uuid}`);
       setData(response.data.data);
     } catch (error) {
       // console.log(error)
+    } finally {
+      setLoad(false);
     }
   };
 
@@ -74,11 +78,12 @@ const Page = () => {
     const { uuid } = params;
     if (uuid) {
       setId(uuid);
-      ctx.data.services && ctx.data.services.map((s) => {
-        if (s.uuid === id) {
-          setData(s);
-        }
-      });
+      ctx.data.services &&
+        ctx.data.services.map((s) => {
+          if (s.uuid === id) {
+            setData(s);
+          }
+        });
     }
 
     fetchData();
@@ -119,7 +124,7 @@ const Page = () => {
       console.log(err);
       if (typeof err.response != "undefined") {
         setError(err.response.data.msg);
-        return 
+        return;
       }
       setError("Check Your Internet Connection");
     } finally {
@@ -132,9 +137,9 @@ const Page = () => {
       <Head>
         <title>Services | Jospat Admin</title>
       </Head>
-      <Box onClick={()=> setError("")} position={"fixed"} right={0} zIndex={99}>
-          {error && <Alert severity="error">{error}</Alert>}
-        </Box>
+      <Box onClick={() => setError("")} position={"fixed"} right={0} zIndex={99}>
+        {error && <Alert severity="error">{error}</Alert>}
+      </Box>
 
       <Box pb={10}>
         <Stack direction="row" justifyContent="space-between" spacing={4} px={12} my={5}>
@@ -167,9 +172,9 @@ const Page = () => {
           </Stack>
         </Stack>
 
-        {ctx.loading ? (
+        {loading ? (
           <CircularProgress size={25} />
-        ) : data ? (
+        ) : !error && data ? (
           <Stack
             flexWrap={"wrap"}
             justifyContent={"center"}

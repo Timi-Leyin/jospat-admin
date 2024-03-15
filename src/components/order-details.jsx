@@ -213,10 +213,7 @@ const OrderDetails = ({ order }) => {
                       label="Inspection Date"
                       name="inspection_date"
                       required
-                      onChange={(e)=>{
-                        console.log(e.target.value)
-                        console.log(`${new Date(order.inspection_date).getFullYear()}-${new Date(order.inspection_date).getMonth()}-${new Date(order.inspection_date).getDay()}`)
-                      }}
+                      
                       defaultValue={order.inspection_date.split("T")[0]}
                       type="date"
                     />
@@ -234,7 +231,8 @@ const OrderDetails = ({ order }) => {
                       <MenuItem value="pending">Pending</MenuItem>
                       <MenuItem value="waiting to be reviewed">Waiting to be Reviewed</MenuItem>
                       <MenuItem value="working">Working</MenuItem>
-                      <MenuItem value="completed">Completed</MenuItem>
+                      <MenuItem value="waiting for payment">Waiting for payment</MenuItem>
+                      <MenuItem value="complete">Completed</MenuItem>
                     </TextField>
                   </Box>
 

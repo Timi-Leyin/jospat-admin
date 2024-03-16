@@ -192,57 +192,62 @@ const OrderDetails = ({ order }) => {
                   </TableBody>
                 </Table>
               </CardContent>
-              {
-                order && (
-                  <CardActions>
-                <Box mx={3} mb={3} method="POST" component={"form"} onSubmit={handleSubmit}>
-                  <Typography mb={3} fontWeight={"bold"} fontSize={"17px"}>
-                    Update Order
-                  </Typography>
-                  <Box display={"flex"} justifyContent={"center"} gap={3} flexWrap={"wrap"} mb={2}>
-                    <TextField
-                      fullWidth
-                      label="Actual Price (NGN)"
-                      name="price"
-                      required
-                      type="number"
-                      defaultValue={order.amount}
-                    />
-                    <TextField
-                      fullWidth
-                      label="Inspection Date"
-                      name="inspection_date"
-                      required
-                      
-                      defaultValue={order.inspection_date.split("T")[0]}
-                      type="date"
-                    />
-                    <TextField
-                      select
-                      required
-                      label="Status"
-                      name="status"
-                      defaultValue={order.status.toLowerCase() }
-                      // onChange={handleStatusChange}
-                      fullWidth
-                      sx={{ marginBottom: 2 }}
+              {order && (
+                <CardActions>
+                  <Box mx={3} mb={3} method="POST" component={"form"} onSubmit={handleSubmit}>
+                    <Typography mb={3} fontWeight={"bold"} fontSize={"17px"}>
+                      Update Order
+                    </Typography>
+                    <Box
+                      display={"flex"}
+                      justifyContent={"center"}
+                      gap={3}
+                      flexWrap={"wrap"}
+                      mb={2}
                     >
-                      <MenuItem value="initial">Initial</MenuItem>
-                      <MenuItem value="pending">Pending</MenuItem>
-                      <MenuItem value="waiting to be reviewed">Waiting to be Reviewed</MenuItem>
-                      <MenuItem value="working">Working</MenuItem>
-                      <MenuItem value="waiting for payment">Waiting for payment</MenuItem>
-                      <MenuItem value="complete">Completed</MenuItem>
-                    </TextField>
-                  </Box>
+                      <TextField
+                        fullWidth
+                        label="Actual Price (NGN)"
+                        name="price"
+                        required
+                        type="number"
+                        defaultValue={order.amount}
+                      />
+                      <TextField
+                        fullWidth
+                        label="Inspection Date"
+                        name="inspection_date"
+                        required
+                        defaultValue={order.inspection_date.split("T")[0]}
+                        type="date"
+                      />
+                      <TextField
+                        select
+                        required
+                        label="Status"
+                        name="status"
+                        defaultValue={order.status.toLowerCase()}
+                        // onChange={handleStatusChange}
+                        fullWidth
+                        sx={{ marginBottom: 2 }}
+                      >
+                        <MenuItem value="initial">Initial</MenuItem>
+                        <MenuItem value="pending">Pending</MenuItem>
+                        <MenuItem value="waiting to be reviewed">Waiting to be Reviewed</MenuItem>
+                        <MenuItem value="will be inspecting soon">Will be Inspecting soon</MenuItem>
+                        <MenuItem value="working">Working</MenuItem>
+                        <MenuItem value="waiting for payment">Waiting for payment</MenuItem>
+                        <MenuItem value="paid">Paid</MenuItem>
+                        <MenuItem value="completed">Completed</MenuItem>
+                      </TextField>
+                    </Box>
 
-                  <Button type="submit" disabled={isLoading} variant="contained">
-                    {isLoading ? <CircularProgress size={25} /> : "Update Order"}
-                  </Button>
-                </Box>
-              </CardActions>
-                )
-              }
+                    <Button type="submit" disabled={isLoading} variant="contained">
+                      {isLoading ? <CircularProgress size={25} /> : "Update Order"}
+                    </Button>
+                  </Box>
+                </CardActions>
+              )}
             </Card>
           </Grid>
         </Grid>

@@ -157,7 +157,13 @@ const OrderDetails = ({ order }) => {
                     </TableRow>
                     <TableRow>
                       <TableCell>Amount</TableCell>
-                      <TableCell>{order ? "NGN " + moneySplitter(order.amount) : "-"}</TableCell>
+                      <TableCell>
+                        {order
+                          ? order.amount
+                            ? "NGN " + moneySplitter(order.amount)
+                            : "N/A"
+                          : "-"}
+                      </TableCell>
                     </TableRow>
                     <TableRow>
                       <TableCell>Inspection Date</TableCell>
@@ -165,7 +171,7 @@ const OrderDetails = ({ order }) => {
                         {order
                           ? order.inspection_date
                             ? new Date(order.inspection_date).toLocaleDateString()
-                            : "None Yet"
+                            : "N/A"
                           : "-"}
                       </TableCell>
                     </TableRow>
@@ -187,7 +193,13 @@ const OrderDetails = ({ order }) => {
                     </TableRow>
                     <TableRow>
                       <TableCell>Additional Info</TableCell>
-                      <TableCell>{order ? order.address.additional_info : "None"}</TableCell>
+                      <TableCell>
+                        {order
+                          ? order.address.additional_info
+                            ? order.address.additional_info
+                            : "N/A"
+                          : "None"}
+                      </TableCell>
                     </TableRow>
                   </TableBody>
                 </Table>
@@ -218,7 +230,7 @@ const OrderDetails = ({ order }) => {
                         label="Inspection Date"
                         name="inspection_date"
                         required
-                        defaultValue={order.inspection_date.split("T")[0]}
+                        defaultValue={order.inspection_date && order.inspection_date.split("T")[0]}
                         type="date"
                       />
                       <TextField

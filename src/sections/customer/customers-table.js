@@ -91,7 +91,7 @@ export const CustomersTable = (props) => {
                     <TableCell>
                      None
                     </TableCell>
-                    <TableCell>None</TableCell>
+                    <TableCell>{customer.address.length>0 ? customer.address[0].phone_number:"None"}</TableCell>
                     <TableCell>{new Date(customer.createdAt).toDateString()}</TableCell>
                   </TableRow>
                 );

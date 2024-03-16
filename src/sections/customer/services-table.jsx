@@ -79,8 +79,8 @@ export const ServicesTable = (props) => {
                     </TableCell>
                     <TableCell><Link href={`/services/${customer.uuid}`}>{customer.name}</Link></TableCell>
                     <TableCell>{customer.Creator.email}</TableCell>
-                    <TableCell>{"NGN " + moneySplitter(customer.sale_price)}</TableCell>
                     <TableCell>{"NGN " + moneySplitter(customer.regular_price)}</TableCell>
+                    <TableCell>{"NGN " + moneySplitter(customer.sale_price)}</TableCell>
                     <TableCell>
                       <Avatar src={customer.thumbnail[0].src}>{getInitials(customer.name)}</Avatar>
                     </TableCell>

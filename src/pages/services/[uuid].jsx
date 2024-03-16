@@ -104,6 +104,12 @@ const Page = () => {
       alert(response.data.msg);
       router.back();
     } catch (error) {
+      console.log(error);
+      if (error.response.data.msg.includes("Server")) {
+        return alert("Service is Associated with Some Orders, Cannot Delete At the moment");
+      }
+
+      return alert("Check Your Internet Conncection");
     } finally {
       setLoading(false);
     }

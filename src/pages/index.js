@@ -79,8 +79,8 @@ const Page = () => {
               </Grid>
               <Grid xs={12} md={6} lg={4}>
                 <OverviewTraffic
-                  chartSeries={[63, 15, 22]}
-                  labels={["Desktop", "Tablet", "Phone"]}
+                  chartSeries={[0, 100]}
+                  labels={["IOS", "Android"]}
                   sx={{ height: "100%" }}
                 />
               </Grid>

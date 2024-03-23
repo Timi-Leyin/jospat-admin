@@ -20,15 +20,13 @@ const Page = () => {
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
-  const [previewImage, setPreviewImage] = useState()
+  const [previewImage, setPreviewImage] = useState();
 
-  
-
-  const imageInputHandler = async (event)=>{
+  const imageInputHandler = async (event) => {
     const file = event.target.files[0];
-    const url = URL.createObjectURL(file)
-    setPreviewImage(url)
-  }
+    const url = URL.createObjectURL(file);
+    setPreviewImage(url);
+  };
 
   const submitHandler = async (event) => {
     event.preventDefault();
@@ -37,10 +35,14 @@ const Page = () => {
     setLoading(true);
     setError("");
     try {
-      const response = await axiosInstance.post("/services/add", fd);
-      event.target.reset()
+      const response = await axiosInstance.post("/services/add", fd, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      event.target.reset();
       alert(response.data.msg);
-      router.back()
+      router.back();
     } catch (err) {
       console.log(err);
       if (typeof err.response != "undefined") {
@@ -63,7 +65,7 @@ const Page = () => {
             <Typography variant="h4">Create New Service</Typography>
           </Stack>
         </Stack>
-        <Box onClick={()=> setError("")} position={"fixed"} right={0} zIndex={99}>
+        <Box onClick={() => setError("")} position={"fixed"} right={0} zIndex={99}>
           {error && <Alert severity="error">{error}</Alert>}
         </Box>
 
@@ -74,7 +76,7 @@ const Page = () => {
             borderRadius={5}
             height={500}
             style={{
-                objectFit:"cover"
+              objectFit: "cover",
             }}
             src={previewImage || "/admin/assets/products/product-1.png"}
           ></Box>
@@ -99,7 +101,13 @@ const Page = () => {
             <Typography fontSize={15}></Typography>
             <TextField fullWidth label="Service Category" name="category" required type="text" />
             <Box my={1}>
-              <TextField label="Image" fullWidth onChange={imageInputHandler} name="images" type="file" />
+              <TextField
+                label="Image"
+                fullWidth
+                onChange={imageInputHandler}
+                name="images"
+                type="file"
+              />
             </Box>
             <Stack direction={"row"} gap={5} py={1}>
               <TextField fullWidth label="MIN PRICE" name="regular_price" type="number" required />

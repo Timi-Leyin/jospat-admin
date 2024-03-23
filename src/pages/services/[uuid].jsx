@@ -122,7 +122,11 @@ const Page = () => {
     setLoading(true);
     setError("");
     try {
-      const response = await axiosInstance.put(`/services/${id}`, fd);
+      const response = await axiosInstance.put(`/services/${id}`, fd, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       event.target.reset();
       alert(response.data.msg);
       router.back();

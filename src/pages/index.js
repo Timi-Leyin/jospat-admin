@@ -46,11 +46,10 @@ const Page = () => {
                   difference={12}
                   positive
                   sx={{ height: "100%" }}
-                  value={`NGN ${
-                    ctx.data.transactions._sum.fee >= 1000
-                      ? moneySplitter(ctx.data.transactions._sum.fee / 1000) + "K"
-                      : moneySplitter(ctx.data.transactions._sum.fee)
-                  }`}
+                  value={ctx.data.transactions._sum.fee ? `NGN ${ctx.data.transactions._sum.fee >= 1000
+                    ? moneySplitter(ctx.data.transactions._sum.fee / 1000) + "K"
+                    : moneySplitter(ctx.data.transactions._sum.fee)
+                    }` : 0}
                 />
               </Grid>
               <Grid xs={12} sm={6} lg={3}>
@@ -67,15 +66,14 @@ const Page = () => {
               <Grid xs={12} sm={6} lg={3}>
                 <OverviewTotalProfit
                   sx={{ height: "100%" }}
-                  value={`NGN ${
-                    ctx.data.transactions._sum.amount >= 1000
-                      ? moneySplitter(ctx.data.transactions._sum.amount / 1000) + "K"
-                      : moneySplitter(ctx.data.transactions._sum.amount)
-                  }`}
+                  value={ctx.data.transactions._sum.amount ? `NGN ${ctx.data.transactions._sum.amount >= 1000
+                    ? moneySplitter(ctx.data.transactions._sum.amount / 1000) + "K"
+                    : moneySplitter(ctx.data.transactions._sum.amount)
+                    }` : 0}
                 />
               </Grid>
               <Grid xs={12} lg={8}>
-                <OverviewSales chartSeries={ctx.data.sales} sx={{ height: "100%" }} />
+                <OverviewSales chartSeries={ctx.data.sales || 0} sx={{ height: "100%" }} />
               </Grid>
               <Grid xs={12} md={6} lg={4}>
                 <OverviewTraffic

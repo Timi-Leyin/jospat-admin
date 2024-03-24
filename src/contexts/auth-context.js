@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useReducer, useRef } from "react";
 import PropTypes from "prop-types";
-import axiosInstance from "../api/axios";
+import axiosInstance from "src/config/axios";
+
 const HANDLERS = {
   INITIALIZE: "INITIALIZE",
   SIGN_IN: "SIGN_IN",
@@ -72,12 +73,14 @@ export const AuthProvider = (props) => {
     let isAuthenticated = false;
 
     try {
-      isAuthenticated = window.sessionStorage.getItem("authenticated") === "true";
+      isAuthenticated = window.sessionStorage.getItem("authenticated");
     } catch (err) {
       console.error(err);
     }
 
     if (isAuthenticated) {
+      // fetch user data
+      // const response = await axiosInstance
       const user = {
         id: "5e86809283e28b96d2d38537",
         avatar: "/assets/avatars/avatar-anika-visser.png",
@@ -104,52 +107,26 @@ export const AuthProvider = (props) => {
     []
   );
 
-  const skip = () => {
-    try {
-      window.sessionStorage.setItem("authenticated", "true");
-    } catch (err) {
-      console.error(err);
-    }
-
-    const user = {
-      id: "5e86809283e28b96d2d38537",
-      avatar: "/assets/avatars/avatar-anika-visser.png",
-      name: "Jay TEch Co",
-      email: "admin@jospatcom.ng",
-    };
-
-    dispatch({
-      type: HANDLERS.SIGN_IN,
-      payload: user,
-    });
-  };
-
   const signIn = async (email, password) => {
+    let userData;
     try {
-      const response = await axiosInstance.post("/auth/login", {
+      const response = await axiosInstance.post("/admin/login", {
         email,
         password,
       });
-
-        window.sessionStorage.setItem("sid", response.data.token);
-      
+      window.sessionStorage.setItem("authenticated", response.data.token);
+      userData = response.data.user;
     } catch (err) {
-      if (typeof err.response.data != "undefined") {
+      if (typeof err.response != "undefined") {
         throw new Error(err.response.data.msg);
       }
-      throw new Error("Check your Internet Connection");
-    }
 
-    const user = {
-      id: "5e86809283e28b96d2d38537",
-      avatar: "/assets/avatars/avatar-anika-visser.png",
-      name: "Jay Tech Co",
-      email: "admin@jospat.com.ng",
-    };
+      throw Error("Check Your Internet Connection");
+    }
 
     dispatch({
       type: HANDLERS.SIGN_IN,
-      payload: user,
+      payload: userData,
     });
   };
 
@@ -158,6 +135,7 @@ export const AuthProvider = (props) => {
   };
 
   const signOut = () => {
+    window.sessionStorage.removeItem("authenticated");
     dispatch({
       type: HANDLERS.SIGN_OUT,
     });
@@ -167,7 +145,6 @@ export const AuthProvider = (props) => {
     <AuthContext.Provider
       value={{
         ...state,
-        skip,
         signIn,
         signUp,
         signOut,

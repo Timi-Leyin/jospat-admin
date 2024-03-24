@@ -17,16 +17,16 @@ import {
 import { Scrollbar } from "src/components/scrollbar";
 import { getInitials } from "src/utils/get-initials";
 import { SeverityPill } from "src/components/severity-pill";
-import Link from "next/link";
 import moneySplitter from "src/utils/money-splitter";
+import Link from "next/link";
 
-export const statusMap = {
+const statusMap = {
   pending: "warning",
   delivered: "success",
   refunded: "error",
 };
 
-export const OrderTable = (props) => {
+export const ServicesTable = (props) => {
   const {
     count = 0,
     items = [],
@@ -41,7 +41,6 @@ export const OrderTable = (props) => {
     selected = [],
   } = props;
 
-  console.log(items);
   const selectedSome = selected.length > 0 && selected.length < items.length;
   const selectedAll = items.length > 0 && selected.length === items.length;
 
@@ -52,17 +51,17 @@ export const OrderTable = (props) => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Order ID</TableCell>
-                <TableCell>Service Name</TableCell>
-                <TableCell>User</TableCell>
-                <TableCell>Final Price</TableCell>
-                <TableCell>Location</TableCell>
-                <TableCell>Date</TableCell>
-                <TableCell>Status</TableCell>
+                <TableCell>Created At</TableCell>
+                <TableCell>Name</TableCell>
+                <TableCell>Created By</TableCell>
+                <TableCell>Price MIN</TableCell>
+                <TableCell>Price MAX</TableCell>
+                <TableCell>Thubmbnail</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {items.map((customer) => {
+                // console.log(customer && customer.thumbnail[0].src);
                 const isSelected = selected.includes(customer.uuid);
                 // const createdAt = format(customer.createdAt, 'dd/MM/yyyy');
 
@@ -74,31 +73,16 @@ export const OrderTable = (props) => {
                         {/* {getInitials(customer.name)} */}
                         {/* </Avatar> */}
                         <Typography variant="subtitle2">
-                          <b style={{ fontSize: "20px" }}># </b>
-                          {customer.id}
+                          {new Date(customer.createdAt).toDateString()}
                         </Typography>
                       </Stack>
                     </TableCell>
+                    <TableCell><Link href={`/services/${customer.uuid}`}>{customer.name}</Link></TableCell>
+                    <TableCell>{customer.Creator.email}</TableCell>
+                    <TableCell>{"NGN " + moneySplitter(customer.regular_price)}</TableCell>
+                    <TableCell>{"NGN " + moneySplitter(customer.sale_price)}</TableCell>
                     <TableCell>
-                      <Link href={`/orders/${customer.uuid}`}>{customer.service.name}</Link>
-                    </TableCell>
-                    <TableCell>
-                      {customer.User.first_name + " " + customer.User.last_name}
-                    </TableCell>
-                    <TableCell>
-                      {customer.amount
-                        ? "NGN " + moneySplitter(customer.amount)
-                        : "Not Yet Finalized"}
-                    </TableCell>
-                    <TableCell>
-                      {customer.address.address}, {customer.address.city}, {customer.address.state}
-                    </TableCell>
-                    <TableCell>{new Date(customer.createdAt).toDateString()}</TableCell>
-                    <TableCell>
-                      <SeverityPill color={statusMap[customer.status]}>
-                        {/* {order.status} */}
-                        {customer.status}
-                      </SeverityPill>
+                      <Avatar src={customer.thumbnail[0].src}>{getInitials(customer.name)}</Avatar>
                     </TableCell>
                   </TableRow>
                 );
@@ -120,7 +104,7 @@ export const OrderTable = (props) => {
   );
 };
 
-OrderTable.propTypes = {
+ServicesTable.propTypes = {
   count: PropTypes.number,
   items: PropTypes.array,
   onDeselectAll: PropTypes.func,

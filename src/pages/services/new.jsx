@@ -15,6 +15,7 @@ import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
 import { useState } from "react";
 import axiosInstance from "src/config/axios";
 import { useRouter } from "next/router";
+import axios from "axios";
 
 const Page = () => {
   const [isLoading, setLoading] = useState(false);
@@ -35,8 +36,10 @@ const Page = () => {
     setLoading(true);
     setError("");
     try {
-      const response = await axiosInstance.post("/services/add", fd, {
+      const response = await axios.post("https://jospat-api-1.onrender.com/services/add", fd, {
         headers: {
+            Accept:"*/*",
+            Authorization: `Bearer ${typeof window != "undefined" ? window.sessionStorage.getItem("authenticated") : "none"}`,
           "Content-Type": "multipart/form-data",
         },
       });

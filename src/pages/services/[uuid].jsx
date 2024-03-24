@@ -29,7 +29,7 @@ import { useRouter } from "next/router";
 import { useParams } from "next/navigation";
 import { adminContext } from "src/contexts/admin-context";
 import axiosInstance from "src/config/axios";
-
+import axios from "axios";
 // const now = new Date();
 
 // const useCustomers = (page, rowsPerPage) => {
@@ -122,8 +122,10 @@ const Page = () => {
     setLoading(true);
     setError("");
     try {
-      const response = await axiosInstance.put(`/services/${id}`, fd, {
+      const response = await axios.put(`https://jospat-api-1.onrender.com/services/${id}`, fd, {
         headers: {
+          Accept:"*/*",
+          Authorization: `Bearer ${typeof window != "undefined" ? window.sessionStorage.getItem("authenticated") : "none"}`,
           "Content-Type": "multipart/form-data",
         },
       });

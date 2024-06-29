@@ -36,7 +36,7 @@ const Page = () => {
     setLoading(true);
     setError("");
     try {
-      const response = await axios.post("https://jospat-api-1.onrender.com/services/add", fd, {
+      const response = await axiosInstance.post("/services/add", fd, {
         headers: {
             Accept:"*/*",
             Authorization: `Bearer ${typeof window != "undefined" ? window.sessionStorage.getItem("authenticated") : "none"}`,

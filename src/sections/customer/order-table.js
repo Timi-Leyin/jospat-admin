@@ -32,7 +32,7 @@ export const OrderTable = (props) => {
     items = [],
     onDeselectAll,
     onDeselectOne,
-    onPageChange = () => {},
+    onPageChange = () => { },
     onRowsPerPageChange,
     onSelectAll,
     onSelectOne,
@@ -91,7 +91,16 @@ export const OrderTable = (props) => {
                         : "Not Yet Finalized"}
                     </TableCell>
                     <TableCell>
-                      {customer.address.address}, {customer.address.city}, {customer.address.state}
+                      {
+                        customer && customer.address ? (
+                          <div>
+                            {customer.address.address}, {customer.address.city}, {customer.address.state}
+
+                          </div>
+                        ) : <div>
+                          N/A
+                        </div>
+                      }
                     </TableCell>
                     <TableCell>{new Date(customer.createdAt).toDateString()}</TableCell>
                     <TableCell>
